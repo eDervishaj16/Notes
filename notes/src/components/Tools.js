@@ -24,7 +24,16 @@ function Tools(props) {
                     alt="Delete"
                 /><label>Delete</label>
             </button>
-            <button>{props.loggedIn? props.email : 'Log In'}</button>
+            {props.loggedIn? props.email : 
+                <button onClick={props.loginForm}>
+                    <img 
+                        src="https://img.icons8.com/ios/50/000000/login-rounded-right.png"
+                        alt="Log In"
+                    />
+                    <label>Log In</label>
+                </button>
+                
+            }
         </div>
     )
 }

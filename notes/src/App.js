@@ -65,7 +65,7 @@ class App extends Component {
       [name]: [value]
     })
   }
-
+  /* BUG WHEN SAVING A NOTE WITHOUT CREATING IT - DUHHH*/
   // Save the existing oppened note
   saveNote = () => {
     // Save date
@@ -74,7 +74,7 @@ class App extends Component {
     let showTxt = this.state.currentText[0].split("\n")
     // Text that will be displayed on the side panel
     let displayTitle = showTxt[0].substring(0, 10)
-    let displayText = this.state.currentText.length <= 1? showTxt[0].substring(0, 10) : showTxt[1].substring(0, 10)
+    let displayText = showTxt.length <= 1? showTxt[0].substring(0, 10) : showTxt[1].substring(0, 20)+'...'
 
     let author = this.state.loggedIn? this.state.email : 'undefined'
 
@@ -154,6 +154,7 @@ class App extends Component {
               saveNote = {this.saveNote}
               deleteNote = {this.deleteNote}
               newNote = {this.newNote}
+              loginForm = {this.loginForm}
             />
             <div className='secondary-container'>
               <AllNotes
