@@ -16,8 +16,10 @@ function WritingSpace(props) {
     else {
         return(
             <div className='textArea-holder'>
-                <textarea className='fillerTxt' readOnly>
-                    Press the "New Note" button above to get started
+                <textarea 
+                    className='fillerTxt' 
+                    value = 'Press the "New Note" button above to get started'
+                    readOnly>
                 </textarea>
             </div>
         )

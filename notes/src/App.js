@@ -8,10 +8,11 @@ import Tools from './components/Tools';
 
 
 class App extends Component {
+  
   constructor() {
     super()
     this.state = {
-      hasCreatedFile: true,
+      hasCreatedFile: false,
       loggedIn: false,
       email:  '',
       currentText: '',
@@ -30,21 +31,29 @@ class App extends Component {
 
   // Create a new note 
   newNote = () => {
-
+    // Before opening another file save
+    // the currently working one
     if(this.state.hasCreatedFile) {
       this.saveNote()
-    }      
+    }  
     
     // Initialize the new note state
     this.setState(prevState =>{ 
       const newNote =  {
-        hasCreatedFile: true,
         id: ++prevState.currNote.id,
+        userText: '',
+        displayText: '',
+        displayTitle: '',
+        date: '',
+        author: '',
         opened: true
       }
-
       return {
-        currNote: newNote
+        hasCreatedFile: true,
+        currNote: newNote,
+        // Clear the text of the previous file 
+        // from the writing area
+        currentText: ''
       }
     })
   }
@@ -56,7 +65,6 @@ class App extends Component {
       [name]: [value]
     })
   }
-
 
   // Save the existing oppened note
   saveNote = () => {
@@ -129,14 +137,15 @@ class App extends Component {
         updatedMyNotes: {myNotes: this.state.myNotes.splice(exists_id, 1)}
       })
     }
-
+    // Else just clear the writing space
     this.setState({
       currentText: ''
     })
-    // Else just erase the contents 
-    // of the currently opened note
   }
 
+  /* TO BE IMPLEMENTED*/
+  searchNote() {
+  }
 
   render() {
     return(
@@ -144,6 +153,7 @@ class App extends Component {
             <Tools
               saveNote = {this.saveNote}
               deleteNote = {this.deleteNote}
+              newNote = {this.newNote}
             />
             <div className='secondary-container'>
               <AllNotes

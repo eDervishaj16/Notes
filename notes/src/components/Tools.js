@@ -5,6 +5,12 @@ function Tools(props) {
     return(
         <div className="tools">
             <SearchBar/>
+            <button onClick={props.newNote}>
+                <img 
+                    src="https://img.icons8.com/ios/50/000000/add-file.png"
+                    alt="New File"
+                /><label>New Note</label>
+            </button>
             <button onClick={props.saveNote}>
                 <img 
                     src="https://img.icons8.com/ios/50/000000/save.png"
