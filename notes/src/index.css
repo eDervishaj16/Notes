@@ -154,3 +154,8 @@ button:focus {
 ::-webkit-scrollbar { 
   display: none; 
 }
+
+.fillerTxt {
+  text-align: center;
+  padding-top: 23%;
+}
