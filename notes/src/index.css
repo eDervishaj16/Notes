@@ -1,29 +1,44 @@
 body {
   margin: 0px;
   height: 100%;
+  overflow: hidden;
 }
 
 html {
   height: 100%;
 }
 
-.main-container {
+.secondary-container {
   background-color: whitesmoke;
-  width: 80%;
+  margin: 0px;
+  border-top: 2px solid #dddddd;
+  height: 91.7%;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.main-container {
   margin: 5% auto;
+  width: 80%;
   height: 700px;
-  border: 2px solid rgb(221, 221, 221);
+  border: 2px solid #dddddd;
 }
 
 .allPrevNotes {
   width: 20%;
   float: left;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
 }
 
 .textArea-holder {
+  float: left;
   width: 80%;
-  height: 650px;
-  margin-left: auto;
+  height: 100%;
+
 }
 
 textarea {
@@ -42,33 +57,41 @@ textarea:focus {
   border: 1px solid #c9c9c9;
 }
 
-label > img {
+.searchBar {
+  width: 20%;
+  margin-left: 10px;
+}
+.searchLabel > img {
   margin-top: 13px;
   margin-left: 10px;
   width: 20px;
   float: left;
 }
 
-label > input {
+.searchLabel > input {
   float: left;
   height: 20px;
   border: 0px;
   background-color: transparent;
   border-bottom: 1px solid black;
   margin-bottom: 10px;
-  margin-left: 10px;
   margin-top: 10px;
-  width: 80%;
 }
 
-label > input:focus {
+.searchLabel > input:focus {
   outline: none !important;
   border-bottom: 1px solid #c9c9c9;
 }
 
 .tools {
-  padding: 10px;
+  width: 100%;
+  height: 5%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: block;
+  background-color: whitesmoke;
 }
+
 button {
   border: 0px;
   background-color: transparent;
@@ -95,6 +118,39 @@ button:focus {
   outline: none !important;
 }
 
-.sideNote{
-  background-color: black;
+.sideNote {
+  width: 100%;
+  height: 80px;
+  background-color: #dfdfdf;
+  border-bottom: 1px solid #b8b8b8;
+  margin: 0px;
+  min-height: 80px;
+}
+
+.display{
+  padding: 10px;
+}
+
+.noteTitle {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.restOfFile {
+  font-size: 16px;
+  font-weight: 100;
+  color: rgb(85, 85, 85);
+}
+
+.timeOfSave {
+  font-size: 12px;
+  color: gray;
+}
+
+.sideNote:hover {
+  background-color: #d4d4d4;
+}
+
+::-webkit-scrollbar { 
+  display: none; 
 }

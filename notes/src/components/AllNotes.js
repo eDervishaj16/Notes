@@ -1,12 +1,19 @@
 import React from 'react'
 import Note from './Note'
-import SearchBar from './SearchBar'
 
 function AllNotes(props) {
     return (
         <div className='allPrevNotes'>
-            {console.log(props.data.myNotes[0])}
-            <SearchBar/>
+            {props.data.myNotes.map(items=>{
+                return (
+                    <Note  
+                        displayTitle = {items.displayTitle}
+                        displayText = {items.displayText}
+                        date = {items.date}
+                        key = {items.id}
+                    />
+                )
+            })}
         </div>
     )
 }

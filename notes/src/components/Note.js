@@ -3,9 +3,11 @@ import React from 'react'
 function Note (props) {
     return(
         <div className='sideNote'>
-            <h1 className='noteTitle'>{props.displayTitle}</h1>
-            <h3 className='restOfFile'>{props.displayText}</h3>
-            <h4 className='timeOfSave'>{props.date}</h4>
+            <div className='display'>
+                <label className='noteTitle'>{props.displayTitle}</label><br/>
+                <label className='restOfFile'>{props.displayText}</label><br/>
+                <label className='timeOfSave'>{props.date}</label>
+            </div>
         </div>
     )
 }
