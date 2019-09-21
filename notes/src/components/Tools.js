@@ -12,13 +12,13 @@ function Tools(props) {
                 /><label>Save</label>
             </button>
 
-            <button>
+            <button onClick={props.deleteNote}>
                 <img 
                     src="https://img.icons8.com/ios/50/000000/trash.png"
                     alt="Delete"
                 /><label>Delete</label>
             </button>
-            <button>{props.loggedIn? 'Sign In' : props.email}</button>
+            <button>{props.loggedIn? props.email : 'Log In'}</button>
         </div>
     )
 }

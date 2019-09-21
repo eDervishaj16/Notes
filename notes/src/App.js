@@ -119,11 +119,31 @@ class App extends Component {
     }) 
   }
 
+  // Deletes the currently opened note
+  deleteNote = () => {
+    const exists_id = this.state.myNotes.findIndex(item => item.id === this.state.currNote.id)
+    console.log(exists_id)
+    // If it exists in myNotes -> remove entry
+    if(exists_id !== -1) {
+      this.setState({
+        updatedMyNotes: {myNotes: this.state.myNotes.splice(exists_id, 1)}
+      })
+    }
+
+    this.setState({
+      currentText: ''
+    })
+    // Else just erase the contents 
+    // of the currently opened note
+  }
+
+
   render() {
     return(
       <div className="main-container">
             <Tools
               saveNote = {this.saveNote}
+              deleteNote = {this.deleteNote}
             />
             <div className='secondary-container'>
               <AllNotes
@@ -132,7 +152,7 @@ class App extends Component {
               <WritingSpace
                 updateUserText = {this.updateUserText}
                 saveNote = {this.saveNote}
-                userText = {this.state.userText}
+                currentText = {this.state.currentText}
                 hasCreatedFile = {this.state.hasCreatedFile}
               />
             </div>
