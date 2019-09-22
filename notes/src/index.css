@@ -12,7 +12,7 @@ html {
   background-color: whitesmoke;
   margin: 0px;
   border-top: 2px solid #dddddd;
-  height: 91.7%;
+  height: 91.25%;
   display: flex;
   flex-direction: row;
   width: 100%;
@@ -21,7 +21,7 @@ html {
 .main-container {
   margin: 5% auto;
   width: 80%;
-  height: 700px;
+  height: 80vh;
   border: 2px solid #dddddd;
 }
 
@@ -38,7 +38,6 @@ html {
   float: left;
   width: 80%;
   height: 100%;
-
 }
 
 textarea {
@@ -57,15 +56,9 @@ textarea:focus {
   border: 1px solid #c9c9c9;
 }
 
-.searchBar {
-  width: 20%;
-  margin-left: 10px;
-}
-.searchLabel > img {
-  margin-top: 13px;
-  margin-left: 10px;
-  width: 20px;
-  float: left;
+.searchLabel > input:focus {
+  outline: none !important;
+  border-bottom: 1px solid #c9c9c9;
 }
 
 .searchLabel > input {
@@ -74,13 +67,14 @@ textarea:focus {
   border: 0px;
   background-color: transparent;
   border-bottom: 1px solid black;
-  margin-bottom: 10px;
-  margin-top: 10px;
+  width: 200px;
 }
 
-.searchLabel > input:focus {
-  outline: none !important;
-  border-bottom: 1px solid #c9c9c9;
+.searchLabel > img {
+  margin-top: 0;
+  margin-left: 10px;
+  width: 20px;
+  float: left;
 }
 
 .tools {
@@ -88,8 +82,29 @@ textarea:focus {
   height: 5%;
   padding-top: 10px;
   padding-bottom: 10px;
-  display: block;
+  display: flex;
+  flex-direction: row;
   background-color: whitesmoke;
+  position: relative;
+}
+
+.logInBtn {
+  position: absolute;
+  right: 10px;
+  top: 15px;
+}
+
+.searchBar {
+  position: absolute;
+  left: 40px;
+  top: 15px;
+}
+
+.otherBtns {
+  width: 100%;
+  position: absolute;
+  left: 305px;
+  top: 15px;
 }
 
 button {
@@ -158,4 +173,9 @@ button:focus {
 .fillerTxt {
   text-align: center;
   padding-top: 23%;
+  -moz-user-select: none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }

@@ -2,7 +2,7 @@ import React from 'react'
 
 function Note (props) {
     return(
-        <div className='sideNote'>
+        <div className='sideNote' onClick = {() => props.openToEdit(props.id)}>
             <div className='display'>
                 <label className='noteTitle'>{props.displayTitle}</label><br/>
                 <label className='restOfFile'>{props.displayText}</label><br/>

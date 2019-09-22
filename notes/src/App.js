@@ -31,10 +31,22 @@ class App extends Component {
 
   // Create a new note 
   newNote = () => {
+    console.log(this.state.myNotes)
     // Before opening another file save
     // the currently working one
     if(this.state.hasCreatedFile) {
       this.saveNote()
+      // Close the existing file
+      const index = this.state.myNotes.length-1
+      var lastNoteInfo = {...this.state.myNotes[index]}
+      lastNoteInfo.opened = false
+      console.log('New Notes' + lastNoteInfo)
+      this.setState(prevState =>{
+        const newNotes = prevState.myNotes.splice(index, 1, lastNoteInfo)
+        return(
+          newNotes
+        )
+      })
     }  
     
     // Initialize the new note state
@@ -46,6 +58,8 @@ class App extends Component {
         displayTitle: '',
         date: '',
         author: '',
+        // Close the file if the call came from 
+        // the newNote function
         opened: true
       }
       return {
@@ -67,7 +81,13 @@ class App extends Component {
   }
   /* BUG WHEN SAVING A NOTE WITHOUT CREATING IT - DUHHH*/
   // Save the existing oppened note
-  saveNote = () => {
+  saveNote = (isOpened) => {
+    console.log(isOpened)
+    // If nothing is written -> return
+    if(this.state.currentText === null || this.state.currentText === ''){
+      return
+    }
+
     // Save date
     let date = Date().substring(0, 24)
     // Text entered by the user
@@ -75,13 +95,9 @@ class App extends Component {
     // Text that will be displayed on the side panel
     let displayTitle = showTxt[0].substring(0, 10)
     let displayText = showTxt.length <= 1? showTxt[0].substring(0, 10) : showTxt[1].substring(0, 20)+'...'
-
     let author = this.state.loggedIn? this.state.email : 'undefined'
 
-    // If nothing is written -> return
-    if(this.state.userText === null || this.state.userText === ''){
-      return ("")
-    }
+   
 
     this.setState(prevState =>{
       let updatedMyNotes
@@ -96,7 +112,7 @@ class App extends Component {
         updatedMyNotes = {
           myNotes: prevState.myNotes.push(
             {
-              id: ++prevState.currNote.id,
+              id: prevState.currNote.id,
               userText: this.state.currentText,
               displayText: displayText,
               displayTitle: displayTitle,
@@ -144,7 +160,14 @@ class App extends Component {
   }
 
   /* TO BE IMPLEMENTED*/
-  searchNote() {
+  searchNote() {}
+  loginForm(){}
+  /*TO BE IMPLEMENTED*/
+
+  openToEdit(id) {
+  
+    // Search through myNotes 
+
   }
 
   render() {
@@ -159,6 +182,7 @@ class App extends Component {
             <div className='secondary-container'>
               <AllNotes
                 data = {this.state}
+                openToEdit = {this.openToEdit}
               />
               <WritingSpace
                 updateUserText = {this.updateUserText}
