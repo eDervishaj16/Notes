@@ -29,7 +29,7 @@ function Tools(props) {
             </div>
 
             {props.loggedIn? props.email : 
-                <button className='logInBtn' onClick={props.loginForm}>
+                <button className='logInBtn' onClick={props.displayForm}>
                     <img 
                         src="https://img.icons8.com/ios/50/000000/login-rounded-right.png"
                         alt="Log In"

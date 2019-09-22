@@ -5,6 +5,7 @@ import React, { Component } from 'react'
 import AllNotes from './components/AllNotes'
 import WritingSpace from './components/WritingSpace'
 import Tools from './components/Tools';
+import LogInForm from './components/LogInForm';
 
 
 class App extends Component {
@@ -12,11 +13,14 @@ class App extends Component {
   constructor() {
     super()
     this.state = {
-      hasCreatedFile: false,
+      // User LogIn
+      displayPopUp: false,
       loggedIn: false,
       email:  '',
+      password: '',
+      // Active Note
+      hasCreatedFile: false,
       currentText: '',
-      myNotes: [],
       currNote: {
         id: -1,
         userText: '',
@@ -25,10 +29,13 @@ class App extends Component {
         date: '',
         author: 'undefined',
         opened: false
-      }
+      },
+      // Array of Notes
+      myNotes: []
     }
   }
 
+  // BUG - WHEN CLICKED TWICE IN A ROW AT THE BEGINING
   // Create a new note 
   newNote = () => {
     // Before opening another file save
@@ -79,7 +86,8 @@ class App extends Component {
   }
   /* BUG WHEN SAVING A NOTE WITHOUT CREATING IT - DUHHH*/
   // Save the existing oppened note
-  saveNote = (isOpened) => {
+  saveNote = () => {
+
     // If nothing is written -> return
     if(this.state.currentText === null || this.state.currentText === ''){
       return
@@ -91,7 +99,7 @@ class App extends Component {
     let showTxt = this.state.currentText[0].split("\n")
     // Text that will be displayed on the side panel
     let displayTitle = showTxt[0].substring(0, 10)
-    let displayText = showTxt.length <= 1? showTxt[0].substring(0, 10) : showTxt[1].substring(0, 20)+'...'
+    let displayText = showTxt.length <= 1? showTxt[0].substring(0, 20)+' ...' : showTxt[1].substring(0, 20)+' ...'
     let author = this.state.loggedIn? this.state.email : 'undefined'
 
    
@@ -140,6 +148,12 @@ class App extends Component {
 
   // Deletes the currently opened note
   deleteNote = () => {
+    // If there are no notes left to delete
+    if(this.state.myNotes.length < 1){
+      this.setState({
+        hasCreatedFile: false
+      })
+    }
     const exists_id = this.state.myNotes.findIndex(item => item.id === this.state.currNote.id)
     // If it exists in myNotes -> remove entry
     if(exists_id !== -1) {
@@ -155,13 +169,26 @@ class App extends Component {
 
   /* TO BE IMPLEMENTED*/
   searchNote() {}
-  loginForm(){}
+
+  displayForm = () => {
+    this.setState({
+      displayPopUp: true
+    })
+  }
+
+  removeForm = () => {
+    this.setState({
+      displayPopUp: false
+    })
+  }
   /*TO BE IMPLEMENTED*/
 
   openToEdit = (id) => {
-    
+    // Find the note the user clicked
     const note_id = this.state.myNotes.findIndex(item => item.id === id)
     const note = this.state.myNotes[note_id]
+    // Set the writing space to
+    // the values of the clicked note
     this.setState({
       currentText: note.userText,
       currNote: {
@@ -174,8 +201,6 @@ class App extends Component {
         opened: true
       }
     })
-    // Search through myNotes 
-
   }
 
   render() {
@@ -185,7 +210,7 @@ class App extends Component {
               saveNote = {this.saveNote}
               deleteNote = {this.deleteNote}
               newNote = {this.newNote}
-              loginForm = {this.loginForm}
+              displayForm = {this.displayForm}
             />
             <div className='secondary-container'>
               <AllNotes
@@ -198,7 +223,16 @@ class App extends Component {
                 currentText = {this.state.currentText}
                 hasCreatedFile = {this.state.hasCreatedFile}
               />
+              {this.state.displayPopUp?
+              <LogInForm 
+                logIn={this.logIn}
+                removeForm={this.removeForm}
+                updateUserText={this.updateUserText}
+                password={this.state.password}
+                email={this.state.email}
+              />:null}
             </div>
+            
       </div>
     )
     
