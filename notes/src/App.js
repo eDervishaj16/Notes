@@ -31,7 +31,6 @@ class App extends Component {
 
   // Create a new note 
   newNote = () => {
-    console.log(this.state.myNotes)
     // Before opening another file save
     // the currently working one
     if(this.state.hasCreatedFile) {
@@ -40,7 +39,6 @@ class App extends Component {
       const index = this.state.myNotes.length-1
       var lastNoteInfo = {...this.state.myNotes[index]}
       lastNoteInfo.opened = false
-      console.log('New Notes' + lastNoteInfo)
       this.setState(prevState =>{
         const newNotes = prevState.myNotes.splice(index, 1, lastNoteInfo)
         return(
@@ -82,7 +80,6 @@ class App extends Component {
   /* BUG WHEN SAVING A NOTE WITHOUT CREATING IT - DUHHH*/
   // Save the existing oppened note
   saveNote = (isOpened) => {
-    console.log(isOpened)
     // If nothing is written -> return
     if(this.state.currentText === null || this.state.currentText === ''){
       return
@@ -104,8 +101,6 @@ class App extends Component {
 
       // See if this file already exists and return index if it does 
       const exists_id = this.state.myNotes.findIndex(item => item.id === this.state.currNote.id)
-      console.log(exists_id)
-      console.log(this.state.myNotes)
       if(exists_id === -1) {
         // If it does not exist create new instance with
         // a unique id number
@@ -146,7 +141,6 @@ class App extends Component {
   // Deletes the currently opened note
   deleteNote = () => {
     const exists_id = this.state.myNotes.findIndex(item => item.id === this.state.currNote.id)
-    console.log(exists_id)
     // If it exists in myNotes -> remove entry
     if(exists_id !== -1) {
       this.setState({
@@ -164,8 +158,22 @@ class App extends Component {
   loginForm(){}
   /*TO BE IMPLEMENTED*/
 
-  openToEdit(id) {
-  
+  openToEdit = (id) => {
+    
+    const note_id = this.state.myNotes.findIndex(item => item.id === id)
+    const note = this.state.myNotes[note_id]
+    this.setState({
+      currentText: note.userText,
+      currNote: {
+        id: note.id,
+        userText: note.userText,
+        displayText: note.displayText,
+        displayTitle: note.displayTitle,
+        date: note.date,
+        author: note.author,
+        opened: true
+      }
+    })
     // Search through myNotes 
 
   }
