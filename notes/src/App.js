@@ -1,11 +1,14 @@
 // Other
 import React, { Component } from 'react'
+import shortid from 'shortid'
 
 // My Components
 import AllNotes from './components/AllNotes'
 import WritingSpace from './components/WritingSpace'
-import Tools from './components/Tools';
-import LogInForm from './components/LogInForm';
+import Tools from './components/Tools'
+import LogInForm from './components/LogInForm'
+import PopUp from './components/PopUp'
+import { exists } from 'fs'
 
 
 class App extends Component {
@@ -15,7 +18,7 @@ class App extends Component {
     this.state = {
       // User LogIn
       displayPopUp: false,
-      loggedIn: false,
+      isLoggedIn: false,
       email:  '',
       password: '',
       // Active Note
@@ -28,7 +31,7 @@ class App extends Component {
         displayTitle: '',
         date: '',
         author: 'undefined',
-        opened: false
+        isOpened: false
       },
       // Array of Notes
       myNotes: []
@@ -38,34 +41,53 @@ class App extends Component {
   // BUG - WHEN CLICKED TWICE IN A ROW AT THE BEGINING
   // Create a new note 
   newNote = () => {
+
+    const sleep = (milliseconds) => {
+      return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
+
+    const openedNoteID = this.state.currNote.id // -1
+
+    // If the user has not entered any characters
+    // do not open another note
+    if(this.state.currentText === '' && this.state.hasCreatedFile === true){
+      return null
+    }
+
     // Before opening another file save
     // the currently working one
     if(this.state.hasCreatedFile) {
       this.saveNote()
-      // Close the existing file
-      const index = this.state.myNotes.length-1
-      var lastNoteInfo = {...this.state.myNotes[index]}
-      lastNoteInfo.opened = false
-      this.setState(prevState =>{
-        const newNotes = prevState.myNotes.splice(index, 1, lastNoteInfo)
-        return(
-          newNotes
-        )
+
+      sleep(500).then(() => {
+        // Close the existing file
+        var index = this.state.myNotes.findIndex(item => item.id === openedNoteID)
+        var lastNoteData = {...this.state.myNotes[index]}
+        lastNoteData.isOpened = false
+        
+        this.setState(prevState =>{
+          const newNotes = prevState.myNotes.splice(index, 1, lastNoteData)
+          return(
+            newNotes
+          )
+        })
       })
+      
     }  
-    
+
     // Initialize the new note state
     this.setState(prevState =>{ 
       const newNote =  {
-        id: ++prevState.currNote.id,
+        // Generates a unique ID
+        id: shortid.generate(),
         userText: '',
         displayText: '',
         displayTitle: '',
         date: '',
-        author: '',
+        author: prevState.isLoggedIn? prevState.email : '',
         // Close the file if the call came from 
         // the newNote function
-        opened: true
+        isOpened: true
       }
       return {
         hasCreatedFile: true,
@@ -86,11 +108,11 @@ class App extends Component {
   }
   /* BUG WHEN SAVING A NOTE WITHOUT CREATING IT - DUHHH*/
   // Save the existing oppened note
-  saveNote = () => {
+  saveNote =  () => {
 
     // If nothing is written -> return
     if(this.state.currentText === null || this.state.currentText === ''){
-      return
+      return null
     }
 
     // Save date
@@ -108,35 +130,40 @@ class App extends Component {
       let updatedMyNotes
 
       // See if this file already exists and return index if it does 
-      const exists_id = this.state.myNotes.findIndex(item => item.id === this.state.currNote.id)
+      const exists_id = prevState.myNotes.findIndex(item => item.id === prevState.currNote.id)
+
+      console.log('Current Note ID: ' + prevState.currNote.id)
+
+      // If it does not exist create new instance
+      // with a unique id number
       if(exists_id === -1) {
-        // If it does not exist create new instance with
-        // a unique id number
+        console.log(prevState.id)
         updatedMyNotes = {
           myNotes: prevState.myNotes.push(
             {
               id: prevState.currNote.id,
-              userText: this.state.currentText,
+              userText: prevState.currentText,
               displayText: displayText,
               displayTitle: displayTitle,
               date: date,
-              author: author,
-              opened: true
+              author: prevState.isLoggedIn? prevState.email : 'undefined',
+              isOpened: true
             }
           )
         }
       } 
+      
       else {
         // If it exists update current entry of the array
         updatedMyNotes = {
           myNotes: prevState.myNotes.splice(exists_id, 1, {
-              id: this.state.currNote.id,
-              userText: this.state.currentText,
+              id: prevState.currNote.id,
+              userText: prevState.currentText,
               displayText: displayText,
               displayTitle: displayTitle,
               date: date,
               author: author,
-              opened: true
+              isOpened: true
           })
         }
       }
@@ -155,6 +182,7 @@ class App extends Component {
       })
     }
     const exists_id = this.state.myNotes.findIndex(item => item.id === this.state.currNote.id)
+
     // If it exists in myNotes -> remove entry
     if(exists_id !== -1) {
       this.setState({
@@ -198,12 +226,13 @@ class App extends Component {
         displayTitle: note.displayTitle,
         date: note.date,
         author: note.author,
-        opened: true
+        isOpened: true
       }
     })
   }
 
   render() {
+    console.log(this.state.myNotes)
     return(
       <div className="main-container">
             <Tools

@@ -96,14 +96,14 @@ textarea:focus {
 
 .searchBar {
   position: absolute;
-  left: 40px;
+  left: 10px;
   top: 15px;
 }
 
 .otherBtns {
   width: 100%;
   position: absolute;
-  left: 305px;
+  left: 250px;
   top: 15px;
 }
 
