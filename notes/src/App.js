@@ -8,7 +8,6 @@ import WritingSpace from './components/WritingSpace'
 import Tools from './components/Tools'
 import LogInForm from './components/LogInForm'
 import PopUp from './components/PopUp'
-import { exists } from 'fs'
 
 
 class App extends Component {
@@ -46,12 +45,16 @@ class App extends Component {
       return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
 
-    const openedNoteID = this.state.currNote.id // -1
+    const openedNoteID = this.state.currNote.id
 
     // If the user has not entered any characters
     // do not open another note
-    if(this.state.currentText === '' && this.state.hasCreatedFile === true){
-      return null
+    if((this.state.currentText[0] === undefined || this.state.currentText[0] === "") && this.state.hasCreatedFile === true) {
+      return alert("Cannot create a note if the current one is empty")
+    } else if (this.state.hasCreatedFile === true) {
+      if(this.state.currentText[0].match(/\S+/) === null){
+        return alert("Cannot create a note if the current one is empty")
+      }
     }
 
     // Before opening another file save
@@ -59,6 +62,8 @@ class App extends Component {
     if(this.state.hasCreatedFile) {
       this.saveNote()
 
+      // Sleep is done in order to complete
+      // the execution of the saveNote function
       sleep(500).then(() => {
         // Close the existing file
         var index = this.state.myNotes.findIndex(item => item.id === openedNoteID)
@@ -109,10 +114,16 @@ class App extends Component {
   /* BUG WHEN SAVING A NOTE WITHOUT CREATING IT - DUHHH*/
   // Save the existing oppened note
   saveNote =  () => {
-
+    // Matches anything other than a space, tab or newline
     // If nothing is written -> return
-    if(this.state.currentText === null || this.state.currentText === ''){
-      return null
+    if(this.state.hasCreatedFile == false) {
+      return alert("Create a note first!")
+    } else if(this.state.currentText[0] === undefined || this.state.currentText[0] === "" && this.state.hasCreatedFile === true) {
+      return alert("Cannot save an empty note!")
+    } else {
+      if(this.state.currentText[0].match(/\S+/) === null){
+        return alert("Cannot save an empty note!")
+      }
     }
 
     // Save date
@@ -132,12 +143,9 @@ class App extends Component {
       // See if this file already exists and return index if it does 
       const exists_id = prevState.myNotes.findIndex(item => item.id === prevState.currNote.id)
 
-      console.log('Current Note ID: ' + prevState.currNote.id)
-
       // If it does not exist create new instance
       // with a unique id number
       if(exists_id === -1) {
-        console.log(prevState.id)
         updatedMyNotes = {
           myNotes: prevState.myNotes.push(
             {
@@ -195,9 +203,6 @@ class App extends Component {
     })
   }
 
-  /* TO BE IMPLEMENTED*/
-  searchNote() {}
-
   displayForm = () => {
     this.setState({
       displayPopUp: true
@@ -209,30 +214,30 @@ class App extends Component {
       displayPopUp: false
     })
   }
-  /*TO BE IMPLEMENTED*/
 
   openToEdit = (id) => {
+
     // Find the note the user clicked
-    const note_id = this.state.myNotes.findIndex(item => item.id === id)
-    const note = this.state.myNotes[note_id]
-    // Set the writing space to
-    // the values of the clicked note
-    this.setState({
-      currentText: note.userText,
-      currNote: {
-        id: note.id,
-        userText: note.userText,
-        displayText: note.displayText,
-        displayTitle: note.displayTitle,
-        date: note.date,
-        author: note.author,
-        isOpened: true
-      }
+    const newNote_index = this.state.myNotes.findIndex(item => item.id === id)
+    const newNote = {...this.state.myNotes[newNote_index]}
+        
+    this.setState(prevState =>{
+      const newNotes = prevState.myNotes.map(item => {
+        if(item.id !== id)
+          item.isOpened = false
+        else 
+          item.isOpened = true
+      })
+      return(
+        {
+          currentText: newNote.userText,
+          newNotes
+        } 
+      )
     })
-  }
+}
 
   render() {
-    console.log(this.state.myNotes)
     return(
       <div className="main-container">
             <Tools
