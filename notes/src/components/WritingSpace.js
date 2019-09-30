@@ -7,7 +7,7 @@ function WritingSpace(props) {
                 <textarea 
                     name='userText'
                     onChange = {props.updateUserText}
-                    value = {props.currentNote.userText}
+                    value = {props.userText}
                 >
                 </textarea>  
             </div>

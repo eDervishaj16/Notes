@@ -87,7 +87,7 @@ class App extends Component {
     })
   }
 
-  // Get the user inserted characters and store them on the 'currentText' state variable
+  // Get the user inserted characters and store them on the 'userText' state variable
   updateUserText = (event) => {
     const {name, value} = event.target
     if(name === 'userText') {
@@ -142,7 +142,7 @@ class App extends Component {
       if(exists_id === -1) {
         prevState.myNotes.push({
           id: prevState.currentNote.id,
-          userText: prevState.currentText,
+          userText: prevState.currentNote.userText,
           displayText: displayText,
           displayTitle: displayTitle,
           date: date,
@@ -157,7 +157,7 @@ class App extends Component {
       else {
         prevState.myNotes.splice(exists_id, 1, {
           id: prevState.currentNote.id,
-          userText: prevState.currentText,
+          userText: prevState.currentNote.userText,
           displayText: displayText,
           displayTitle: displayTitle,
           date: date,
@@ -189,20 +189,28 @@ class App extends Component {
         // Remove the element
         prevState.myNotes.splice(exists_id, 1)
         return {
-          myNotes: prevState.myNotes
+          myNotes: prevState.myNotes,
+          currentNote: {
+            id: -1,
+            userText: '',
+            displayText: '',
+            displayTitle: '',
+            date: '',
+            author: 'undefined',
+            isOpened: false
+          }
         }
       })
     }
   }
 
   openToEdit = (id) => {
-
     // Open the note the user clicked
     const newNote_index = this.state.myNotes.findIndex(item => item.id === id)
     const newNote = {...this.state.myNotes[newNote_index]}
         
     this.setState(prevState =>{
-      const newNotes = prevState.myNotes.map(item => {
+      prevState.myNotes.map(item => {
         if(item.id !== id)
           item.isOpened = false
         else 
@@ -210,8 +218,8 @@ class App extends Component {
       })
       return(
         {
+          myNotes: prevState.myNotes,
           currentNote: newNote,
-          newNotes
         } 
       )
     })
@@ -230,6 +238,7 @@ class App extends Component {
   }
 
   render() {
+    console.log(this.state)
     return(
       <div className="main-container">
             <Tools
@@ -246,7 +255,7 @@ class App extends Component {
               <WritingSpace
                 updateUserText = {this.updateUserText}
                 saveNote = {this.saveNote}
-                currentNote = {this.state.currentNote}
+                userText = {this.state.currentNote.userText}
                 hasCreatedFile = {this.state.hasCreatedFile}
               />
             </div>
