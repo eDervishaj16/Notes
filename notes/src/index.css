@@ -142,6 +142,19 @@ button:focus{
   min-height: 80px;
 }
 
+.sideNote:hover {
+  background-color: #d4d4d4;
+}
+
+.selected {
+  background-color: #b9b9b9;
+}
+
+.selected:hover {
+  background-color: #b9b9b9;
+}
+
+
 .display{
   padding: 10px;
 }
@@ -162,9 +175,7 @@ button:focus{
   color: gray;
 }
 
-.sideNote:hover {
-  background-color: #d4d4d4;
-}
+
 
 ::-webkit-scrollbar { 
   display: none; 
