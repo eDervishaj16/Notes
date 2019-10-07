@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
+const path = require('path')
 
 const notes = require('./routes/api/notes')
 
@@ -25,6 +26,16 @@ mongoose.connect(db, {dbName: 'NoteApp'})
 
 // User Routes
 app.use('/api/notes', notes)
+
+// Serve static assets if in production
+if(process.env.NODE_ENV === 'production') {
+    // Set static folder
+    app.use(express.static('client/build'))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 // Listening Port
 const port = process.env.PORT || 5000
