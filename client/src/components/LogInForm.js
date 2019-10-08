@@ -10,16 +10,8 @@ class LogInForm extends React.Component {
         }
     }
 
-    updateUserText = (e) => {
-        const {name, value} = e.target
-        this.setState({
-            [name]: [value]
-        })
+    render(){
+        return(null)
     }
-    
-    render() {
-        return (null)
-    }
-    
 }
 export default LogInForm

@@ -9,10 +9,10 @@ export const getNotes = (author) => dispatch => {
 }
 
 export const createNote = (author) => dispatch => {
-    axios.post('/api/notes', {
+    axios.post('/api/notes',{
         userText: ' ',
         author: author
-    }) .then (res => {
+    }).then (res => {
         dispatch({
             type: CREATE_NOTE,
             payload: res.data
