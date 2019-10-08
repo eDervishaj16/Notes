@@ -1,6 +1,7 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const path = require('path')
+const config = require('config')
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -14,7 +15,7 @@ app.use(express.json())
 
 
 // MongoDB Config
-const db = require('./config/keys').mongoURI
+const db = config.get('mongoURI')
 
 // Connect to MongoDB
 mongoose.connect(db, {dbName: 'NoteApp'})
