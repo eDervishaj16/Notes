@@ -1,9 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
-const bodyParser = require('body-parser')
 const path = require('path')
-
-const notes = require('./routes/api/notes')
 
 mongoose.set('useNewUrlParser', true);
 mongoose.set('useFindAndModify', false);
@@ -13,7 +10,7 @@ mongoose.set('useUnifiedTopology', true);
 const app = express()
 
 // BodyParser Middleware
-app.use(bodyParser.json())
+app.use(express.json())
 
 
 // MongoDB Config
@@ -24,8 +21,11 @@ mongoose.connect(db, {dbName: 'NoteApp'})
     .then(() => console.log('MongoDB Connected ...'))
     .catch(err => console.log(err))
 
-// User Routes
-app.use('/api/notes', notes)
+// Note Routes
+app.use('/api/notes', require('./routes/api/notes'))
+
+// USers Routes
+app.use('/api/users', require('./routes/api/users'))
 
 // Serve static assets if in production
 if(process.env.NODE_ENV === 'production') {

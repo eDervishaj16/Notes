@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-//Note Model
+// Note Model
 const Note = require('../../models/Notes')
 
 // @route GET api/notes/:author
