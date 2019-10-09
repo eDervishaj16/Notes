@@ -1,5 +1,6 @@
 import React from 'react'
 
+// Actions
 import { searchNote } from '../actions/noteActions'
 
 // Redux

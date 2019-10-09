@@ -1,5 +1,7 @@
 
 import React, { Component } from 'react'
+
+// Actions
 import { editNote } from '../actions/noteActions'
 
 // Redux

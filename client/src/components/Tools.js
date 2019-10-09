@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
+import Register from './Register'
 
 // Actions
 import { deleteNote, saveNote, createNote } from '../actions/noteActions'
@@ -75,15 +76,7 @@ class Tools extends Component {
                     </Button>
                 </Col>
                 <Col className = " col-md-2 my-col">  
-                    {this.loggedIn? this.email : 
-                        <Button className='myBtns btn-light' onClick={this.displayForm}>
-                            <img 
-                            src="https://img.icons8.com/ios/50/000000/login-rounded-right.png"
-                            alt="Log In"
-                            />
-                            <label>Log In</label>
-                        </Button>    
-                    }
+                    {this.loggedIn? this.email : <Register/>}
                 </Col>
             </Row>
         )

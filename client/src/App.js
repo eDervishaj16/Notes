@@ -9,14 +9,22 @@ import './App.css';
 import { Provider } from 'react-redux'
 import store from './store'
 
+// Reducers
+import { loadUser } from './actions/authActions'
+
 // My Components
 import AllNotes from './components/AllNotes'
 import WritingSpace from './components/WritingSpace'
 import Tools from './components/Tools'
-import LogInForm from './components/LogInForm'
+import Login from './components/Login'
 
 
 class App extends Component {
+
+  // Load user directly when the app loads
+  componentDidMount(){
+    store.dispatch(loadUser())
+  }
   
   render() {
     return(
@@ -31,7 +39,6 @@ class App extends Component {
                 <WritingSpace/>
               </Col>
             </Row>
-            <LogInForm/>
           </Container>
         </Provider>
     )

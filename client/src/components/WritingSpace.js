@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
+
+// Actions
 import { updateNoteText } from '../actions/noteActions' 
+
 // Redux
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'

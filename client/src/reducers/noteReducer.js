@@ -1,4 +1,13 @@
-import {GET_NOTES, SAVE_NOTE, SEARCH_NOTES, DELETE_NOTE, EDIT_NOTE, CREATE_NOTE, NOTES_LOADING, UPDATE_NOTE_TEXT } from '../actions/types'
+import {
+    GET_NOTES, 
+    SAVE_NOTE, 
+    SEARCH_NOTES, 
+    DELETE_NOTE, 
+    EDIT_NOTE, 
+    CREATE_NOTE, 
+    NOTES_LOADING, 
+    UPDATE_NOTE_TEXT 
+} from '../actions/types'
 
 const initialState = {
     notes: [],
