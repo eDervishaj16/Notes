@@ -7,6 +7,7 @@ export const EDIT_NOTE = 'EDIT_NOTE'
 export const CREATE_NOTE = 'CREATE_NOTE'
 export const NOTES_LOADING = 'NOTES_LOADING'
 export const UPDATE_NOTE_TEXT = 'UPDATE_NOTE_TEXT'
+export const ERASE_PREV_USER_NOTES = 'ERASE_PREV_USER_NOTES'
 
 // User Types
 export const USER_LOADING = 'USER_LOADING'

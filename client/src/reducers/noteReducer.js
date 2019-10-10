@@ -6,7 +6,8 @@ import {
     EDIT_NOTE, 
     CREATE_NOTE, 
     NOTES_LOADING, 
-    UPDATE_NOTE_TEXT 
+    UPDATE_NOTE_TEXT,
+    ERASE_PREV_USER_NOTES 
 } from '../actions/types'
 
 const initialState = {
@@ -84,6 +85,16 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 searchedNotes: filteredNotes
+            }
+
+        case ERASE_PREV_USER_NOTES:
+            return {
+                ...state,
+                notes: [],
+                openedNote:[{}],
+                loading: false,
+                hasActiveNote: false,
+                searchedNotes: []
             }
     }
 }

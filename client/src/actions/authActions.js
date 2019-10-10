@@ -1,6 +1,7 @@
 import axios from 'axios'
-import { returnErrors } from './errorActions';
-
+import { returnErrors } from './errorActions'
+import { getNotes } from '../actions/noteActions'
+import { erasePrevUserNotes } from '../actions/noteActions'
 import {
     USER_LOADED,
     USER_LOADING,
@@ -9,7 +10,7 @@ import {
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
     REGISTER_FAIL,
-    LOGIN_SUCCESS
+    LOGIN_SUCCESS,
 } from '../actions/types'
 
 // Check token 
@@ -28,6 +29,7 @@ export const loadUser = () => (dispatch, getState) => {
         }))
         // If error
         .catch(err => {
+            console.log(err)
             // Send error data to initialState of errorReducer
             dispatch(
                 returnErrors(err.response.data, err.response.status)
@@ -39,7 +41,6 @@ export const loadUser = () => (dispatch, getState) => {
 }
 
 // Register User
-
 export const register = ({ name, surname, email, password}) => dispatch => {
     // Header
     const config = {
@@ -68,6 +69,48 @@ export const register = ({ name, surname, email, password}) => dispatch => {
                 type: REGISTER_FAIL
             })
         })
+}
+
+// Login User
+export const  login = ({email, password}) => dispatch => {
+    // Header
+    const config = {
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    } 
+
+    // Request Body
+    const body = JSON.stringify({
+        email,
+        password
+    })
+
+    // Making the request to register
+    axios.post('api/auth', body, config)
+        .then(res => {
+            dispatch({
+                type: LOGIN_SUCCESS,
+                payload: res.data
+            })
+            // Getting User notes
+            dispatch(getNotes(res.data.user.name))
+        })
+        .catch(err => {
+            dispatch(returnErrors(err.response.data, err.response.status, 'LOGIN_FAIL'))
+            dispatch({
+                type: LOGIN_FAIL
+            })
+        })
+}
+
+
+// Logout User
+export const logout = () => dispatch => {
+    dispatch({
+        type: LOGOUT_SUCCESS
+    })
+    dispatch(erasePrevUserNotes())
 }
 
 // Setup config/headers and token

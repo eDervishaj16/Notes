@@ -72,8 +72,6 @@ class Register extends Component {
     }
 
     onSubmit = (event) => {
-        event.preventDefault()
-
         // Get data from state
         const { name, surname, email, password} = this.state
 

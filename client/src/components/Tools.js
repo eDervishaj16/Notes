@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import SearchBar from './SearchBar'
-import Register from './Register'
+import Login from './Login'
+import Logout from './Logout'
+import MyAlert from './MyAlert'
 
 // Actions
 import { deleteNote, saveNote, createNote } from '../actions/noteActions'
@@ -10,15 +12,31 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 // Bootstrap
-import { Button, Row, Col } from 'reactstrap'
+import 
+{
+    Button, 
+    Row, 
+    Col,
+    Dropdown,
+    DropdownToggle,
+} from 'reactstrap'
 
 class Tools extends Component {
 
-    constructor(){
-        super()
+    // For the dropdown
+    constructor(props) {
+        super(props);
+    
+        this.toggle = this.toggle.bind(this);
         this.state = {
-            loggedIn: false,
-        }
+          dropdownOpen: false
+        };
+    }
+    
+    toggle() {
+        this.setState(prevState => ({
+            dropdownOpen: !prevState.dropdownOpen
+        }));
     }
 
     createNote = (author) => {
@@ -30,13 +48,12 @@ class Tools extends Component {
     }
 
     saveNote = () => {
-
         if(this.props.hasActiveNote === false) {
-            return alert("Create a note first!")
-        } else if(this.props.openedNote.userText === undefined && this.state.hasCreatedFile === true) {
+            return <MyAlert text = 'Create a note first'/>
+        } else if(this.props.openedNote.userText === undefined && this.props.hasActiveNote === true) {
             return alert("Cannot save empty note!")
-        } else if (this.state.hasCreatedFile === true) {
-            if(this.state.openedNote.userText.match(/\S+/) === null){
+        } else if (this.props.hasActiveNote === true) {
+            if(this.props.openedNote.userText.match(/\S+/) === null){
               return alert("Cannot save empty note!")
             }
         }
@@ -76,7 +93,16 @@ class Tools extends Component {
                     </Button>
                 </Col>
                 <Col className = " col-md-2 my-col">  
-                    {this.loggedIn? this.email : <Register/>}
+                    {localStorage.getItem('isAuthenticated')? 
+                        <Dropdown isOpen = {this.state.dropdownOpen} size = 'sm' toggle = {this.toggle}>
+                            <DropdownToggle tag = 'button' caret>
+                                {localStorage.getItem('author')}
+                            </DropdownToggle>
+                            <Logout/>
+                        </Dropdown>    
+                        : 
+                        <Login/>
+                    }
                 </Col>
             </Row>
         )
@@ -94,7 +120,8 @@ Tools.propTypes = {
 const mapStateToProps = (state) => ({
     note: state.note,
     openedNote: state.note.openedNote[0],
-    hasActiveNote: state.note.hasActiveNote
+    hasActiveNote: state.note.hasActiveNote,
+    isAuthenticated: state.auth.isAuthenticated
 })
 
 export default connect(mapStateToProps, { deleteNote, saveNote, createNote })(Tools)

@@ -16,7 +16,7 @@ import { loadUser } from './actions/authActions'
 import AllNotes from './components/AllNotes'
 import WritingSpace from './components/WritingSpace'
 import Tools from './components/Tools'
-import Login from './components/Login'
+import MyAlert from './components/MyAlert';
 
 
 class App extends Component {

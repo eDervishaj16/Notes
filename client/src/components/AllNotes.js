@@ -16,8 +16,7 @@ import PropTypes from 'prop-types'
 class AllNotes extends Component {
 
     componentDidMount() {
-        const author = 'Ergi'
-        this.props.getNotes(author)
+        this.props.getNotes(localStorage.getItem('author'))
     }
 
     render() {
@@ -52,11 +51,14 @@ class AllNotes extends Component {
 
 AllNotes.propTypes = {
     getNotes: PropTypes.func.isRequired,
-    note: PropTypes.object.isRequired
+    note: PropTypes.object.isRequired,
+    isAuthentiaceted: PropTypes.bool
 }
 
 const mapStateToProps = (state) => ({
-    note: state.note
+    note: state.note,
+    isAuthentiaceted: state.auth.isAuthentiaceted,
+    user: state.auth.user
 })
 
 export default connect(mapStateToProps, { getNotes })(AllNotes)
