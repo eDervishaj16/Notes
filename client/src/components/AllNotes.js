@@ -25,7 +25,7 @@ class AllNotes extends Component {
         len > 0 ? notes = this.props.note.searchedNotes : notes = this.props.note.notes
         return (
             <ListGroup>
-                <TransitionGroup className = "note-list">
+                <TransitionGroup className = " note-list">
                     {notes.map(note => {
                         return (
                             <CSSTransition key={note._id} timeout={500} classNames="fade">

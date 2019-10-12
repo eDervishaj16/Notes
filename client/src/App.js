@@ -34,8 +34,8 @@ class App extends Component {
         </Container>
         <Container className = "container-fluid d-flex flex-column main-container">
             <Tools/>
-          <Row className = "flex-grow-1">
-            <Col className = "col-md-3 my-col allPrevNotes ">
+          <Row className = "flex-grow-1 overflow-auto">
+            <Col className = "col-md-3 my-col allPrevNotes">
                 <AllNotes/>
               </Col>
               <Col className = "col-md-9 my-col textarea-holder">
