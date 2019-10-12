@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Register from './Register'
 
 // Redux
 import { connect } from 'react-redux'
@@ -29,6 +30,7 @@ class Login extends Component {
             msg: null,
             email: '',
             password: '',
+            registerModal: false
         }
     }
 
@@ -57,12 +59,23 @@ class Login extends Component {
         }
     }
 
+    displayRegister = () => {
+        this.props.clearErrors()
+        this.setState({
+            registerModal: !this.state.registerModal
+        })
+    }
+
     toggle = () => {
         // Clear previous errors
         this.props.clearErrors()
         this.setState({
             modal: !this.state.modal
         })
+    }
+
+    registerToggle = () => {
+        
     }
 
     handleChange = (event) => {
@@ -101,6 +114,11 @@ class Login extends Component {
                     <label>Login</label>
                 </Button> 
 
+                <Register
+                    modal = {this.state.registerModal}
+                    toggle = {this.displayRegister}
+                />
+
                 <Modal className = 'modals' isOpen = {this.state.modal} toggle = {this.toggle}>
                     <ModalHeader className = 'modalHeader' toggle = {this.toggle}>Login Form</ModalHeader>
                     <ModalBody>
@@ -127,6 +145,7 @@ class Login extends Component {
 
                                 <Button className='modalBtn btn-light' block> Login </Button>
                             </FormGroup>
+                            <Button color = 'link' onClick = {this.displayRegister}>Don't have an account? Sing Up</Button>
                         </Form>
                     </ModalBody>
                 </Modal>

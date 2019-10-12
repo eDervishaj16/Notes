@@ -22,7 +22,6 @@ import {
 
 class Register extends Component {
     state = {
-        modal: false,
         name: '',
         surname: '',
         email: '',
@@ -36,7 +35,7 @@ class Register extends Component {
 
         if(error !== prevProps.error) {
             // Check for a register error
-            if(error.id = 'REGISTER_FAIL'){
+            if(error.id === 'REGISTER_FAIL'){
                 this.setState({
                     msg: error.msg.msg
                 })
@@ -49,19 +48,11 @@ class Register extends Component {
         }
 
         // If successful authentication close modal
-        if(this.state.modal){
+        if(this.props.modal){
             if(isAuthenticated){
                 this.toggle()
             }
         }
-    }
-
-    toggle = () => {
-        // Clear previous errors
-        this.props.clearErrors()
-        this.setState({
-            modal: !this.state.modal
-        })
     }
 
     handleChange = (event) => {
@@ -72,6 +63,7 @@ class Register extends Component {
     }
 
     onSubmit = (event) => {
+        event.preventDefault()
         // Get data from state
         const { name, surname, email, password} = this.state
 
@@ -92,16 +84,8 @@ class Register extends Component {
     render() {
         return (
             <div>
-                <Button className='myBtns btn-light' onClick={this.toggle}>
-                    <img 
-                    src="https://img.icons8.com/ios/50/000000/login-rounded-right.png"
-                    alt="Log In"
-                    />
-                    <label>Sign Up</label>
-                </Button> 
-
-                <Modal className = 'modals' isOpen = {this.state.modal} toggle = {this.toggle}>
-                    <ModalHeader className = 'modalHeader' toggle = {this.toggle}>Register Form</ModalHeader>
+                <Modal className = 'modals' isOpen = {this.props.modal} toggle = {this.props.toggle}>
+                    <ModalHeader className = 'modalHeader' toggle = {this.props.toggle}>Register Form</ModalHeader>
                     <ModalBody>
                         {this.state.msg? <Alert color = 'danger'>{this.state.msg}</Alert>: null}
                         <Form onSubmit = {this.onSubmit}>

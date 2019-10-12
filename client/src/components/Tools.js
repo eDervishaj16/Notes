@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import SearchBar from './SearchBar'
 import Login from './Login'
 import Logout from './Logout'
-import MyAlert from './MyAlert'
 
 // Actions
 import { deleteNote, saveNote, createNote } from '../actions/noteActions'
@@ -29,18 +28,18 @@ class Tools extends Component {
     
         this.toggle = this.toggle.bind(this);
         this.state = {
-          dropdownOpen: false
+          dropdownOpen: false,
         };
     }
-    
-    toggle() {
+
+    toggle = () => {
         this.setState(prevState => ({
             dropdownOpen: !prevState.dropdownOpen
         }));
     }
 
-    createNote = (author) => {
-        this.props.createNote('Ergi')
+    createNote = () => {
+        this.props.createNote(localStorage.getItem('author'))
     }
 
     deleteNote = () => {
@@ -49,12 +48,12 @@ class Tools extends Component {
 
     saveNote = () => {
         if(this.props.hasActiveNote === false) {
-            return <MyAlert text = 'Create a note first'/>
+            return (null)
         } else if(this.props.openedNote.userText === undefined && this.props.hasActiveNote === true) {
-            return alert("Cannot save empty note!")
+            return (null)
         } else if (this.props.hasActiveNote === true) {
             if(this.props.openedNote.userText.match(/\S+/) === null){
-              return alert("Cannot save empty note!")
+                return (null)
             }
         }
         
@@ -94,9 +93,9 @@ class Tools extends Component {
                 </Col>
                 <Col className = " col-md-2 my-col">  
                     {localStorage.getItem('isAuthenticated')? 
-                        <Dropdown isOpen = {this.state.dropdownOpen} size = 'sm' toggle = {this.toggle}>
-                            <DropdownToggle tag = 'button' caret>
-                                {localStorage.getItem('author')}
+                        <Dropdown style = {{marginTop: '5px', paddingBotton: '10px'}} isOpen = {this.state.dropdownOpen} size = 'sm' toggle = {this.toggle}>
+                            <DropdownToggle tag = 'button' style = {{paddingBottom: '5px'}} className = 'myBtns' caret>
+                            <img alt = 'userIcon' src="https://img.icons8.com/ios-filled/50/000000/user.png"/>{localStorage.getItem('author')}
                             </DropdownToggle>
                             <Logout/>
                         </Dropdown>    
@@ -114,14 +113,15 @@ Tools.propTypes = {
     note: PropTypes.object.isRequired,
     deleteNote: PropTypes.func.isRequired,
     saveNote: PropTypes.func.isRequired,
-    createNote: PropTypes.func.isRequired
+    createNote: PropTypes.func.isRequired,
 }
 
 const mapStateToProps = (state) => ({
     note: state.note,
     openedNote: state.note.openedNote[0],
     hasActiveNote: state.note.hasActiveNote,
-    isAuthenticated: state.auth.isAuthenticated
+    isAuthenticated: state.auth.isAuthenticated,
+    error: state.error
 })
 
 export default connect(mapStateToProps, { deleteNote, saveNote, createNote })(Tools)

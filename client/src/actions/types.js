@@ -22,3 +22,7 @@ export const REGISTER_FAIL = 'REGISTER_FAIL'
 // Error Types
 export const GET_ERRORS = 'GET_ERRORS'
 export const CLEAR_ERRORS = 'CLEAR_ERRORS'
+
+// Alert Types
+export const SET_VISIBILITY = 'SET_VISIBILITY'
+export const THROW_ERROR = 'THROW_ERROR'

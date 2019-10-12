@@ -12,8 +12,11 @@ import { DropdownMenu, Button } from 'reactstrap'
 class Logout extends Component {
     render () {
         return (
-            <DropdownMenu>
-                <Button onClick = {this.props.logout}>Logout</Button>
+            <DropdownMenu className = 'btnHolder'>
+                <Button className = ' logout myBtns w-100'  onClick = {this.props.logout}>
+                    <img alt = 'logoutIcon' src="https://img.icons8.com/ios/50/000000/logout-rounded-left.png"/>
+                    Logout
+                </Button>
             </DropdownMenu>
         )
     }

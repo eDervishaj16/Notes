@@ -197,3 +197,17 @@ textarea:focus {
 .modalHeader {
     background-color: #e2e2e2;
 }
+
+.btnHolder {
+    margin: 0px;
+    padding: 0px;
+}
+
+.logout {
+    margin: 0px;
+    padding: 10px 0px 10px 0px;
+}
+
+.logout:hover {
+    background-color: whitesmoke
+}

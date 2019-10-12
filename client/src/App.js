@@ -16,7 +16,7 @@ import { loadUser } from './actions/authActions'
 import AllNotes from './components/AllNotes'
 import WritingSpace from './components/WritingSpace'
 import Tools from './components/Tools'
-import MyAlert from './components/MyAlert';
+import MyAlert from './components/MyAlert'
 
 
 class App extends Component {
@@ -29,6 +29,9 @@ class App extends Component {
   render() {
     return(
       <Provider store={store}>
+        <Container>
+            <MyAlert/>
+        </Container>
         <Container className = "container-fluid d-flex flex-column main-container">
             <Tools/>
           <Row className = "flex-grow-1">
@@ -41,6 +44,7 @@ class App extends Component {
             </Row>
           </Container>
         </Provider>
+
     )
   }
 
